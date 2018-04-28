@@ -2,30 +2,13 @@
 using namespace std;
 int main()
 {
-    void *vp;
-    short *sp;
-    char *cp;
-    short a = 5;
-    short b = -259;
-    sp = &a;
-    vp = sp;
-    cp = (char*)vp;
-    cout<<(int)*cp<<endl;
-    cp ++;
-    cout<<(int)*cp<<endl;
-
-    sp = &b;
-    vp = sp;
-    cp = (char*)vp;
-    cout<<(int)*cp<<endl;
-    cp ++;
-    cout<<(int)*cp<<endl;
-    char* cp2;
-    cp2 = new char[2];
-    cp2[0] = --*cp;
-    cp2[1] = ++*cp;
-    vp = cp2;
-    sp = (short*) vp;
-    cout<<"\n"<<*sp<<endl;
+    char a[2];
+    a[1] = 254;
+    a[0] = 1;
+    short *ps;
+    void * vp;
+    vp = a;
+    ps = (short*) vp;
+    cout<<*ps<<endl;
     return 0;
 }
