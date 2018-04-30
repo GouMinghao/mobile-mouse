@@ -1,4 +1,5 @@
 # run on python3 windows 10 x86_64
+# this version can be run using the driver_g apk
 import serial
 import sys
 import win32api
