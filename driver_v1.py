@@ -1,5 +1,4 @@
 # run on python3 windows 10 x86_64
-# this version can be run using the driver_g apk
 import serial
 import sys
 import win32api
@@ -7,9 +6,8 @@ import win32con
 import numpy as np
 import time
 
-# the function is used in control strategy
-def reverseSigmoid(x):
-    return (np.exp(-x))/(1 + np.exp(-x))
+
+
 
 def leftClick():
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
@@ -46,6 +44,8 @@ if __name__ == '__main__':
         dampRate = float(sys.argv[4])
     else:
         dampRate = 0.8
+
+
     print('Begin to calibrate, please put the mobile phone on the surface and do not move')
     t1 = time.clock()
     # List to store the acceleration data for calibration
