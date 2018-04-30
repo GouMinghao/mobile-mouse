@@ -23,28 +23,24 @@ if __name__ == '__main__':
     debug = True
     s = serial.Serial(sys.argv[1])
     # command line input should be as the following format
-    # python driver.py [serial port number] [cursor move speed] [threshhold for moving]
+    # python driver_g.py [serial port number] [cursor move speed] [threshhold for moving]
     # ------------- Windows -----------------
     # for windows user, one example is:
-    # python driver.py COM3 1 3
+    # python driver_g.py COM3 1 3
     # it means the driver will use COM3 serial port, the moving speed is and the smallest acceleration for moving cursor is 3(m/s^2)
     # ------------- Linux -------------------
     # for linux user, one example is:
-    # python driver.py COM3 1 3
+    # python driver_g.py COM3 1 3
     # it means the driver will use COM3 serial port, the moving speed is and the smallest acceleration for moving cursor is 3(m/s^2)
     # however, linux is not supportted now because of mouse api problem
     if len(sys.argv) >= 3:
         v = int(sys.argv[2])
     else:
-        v = 5
+        v = 1
     if len(sys.argv) >= 4:
-        Thresh = float(sys.argv[3])
+        Thresh = int(sys.argv[3])
     else:
         Thresh = 3
-    if len(sys.argv) >= 5:
-        dampRate = float(sys.argv[4])
-    else:
-        dampRate = 0.8
     print('Begin to calibrate, please put the mobile phone on the surface and do not move')
     t1 = time.clock()
     # List to store the acceleration data for calibration
@@ -94,9 +90,6 @@ if __name__ == '__main__':
     print('Time:',t2 - t1,'seconds')
     # the list to store the recent acceleration data
     alist = []
-    # set the initial speed of the cursor to zero
-    vx = 0
-    vy = 0
 
     while(True):
         byte = s.read(1)
@@ -129,61 +122,39 @@ if __name__ == '__main__':
             ax = x0int / 32.0 * 9.8 + x1int / 256 / 32.0 * 9.8 - axave
             ay = y0int / 32.0 * 9.8 + y1int / 256 / 32.0 * 9.8 - ayave
             az = z0int / 32.0 * 9.8 + z1int / 256 / 32.0 * 9.8 - azave
-            # damp the speed
-            vx = vx * dampRate
-            vy = vy * dampRate
-            print('vx:%.4f\t vy:%.4f' %(vx,vy))
-
-            # change the speed if the acceleration exceed the threshhold
-            if (abs(ax) > Thresh):
-                dvx = reverseSigmoid(abs(vx)) * ax * v
-                vx = vx + dvx
-                # if debug:
-                #     print('dvx:',dvx)
-                #     print('vx:',vx)
-            if (abs(ay) > Thresh):
-                dvy = reverseSigmoid(abs(vy)) * ay * v
-                vy = vy + dvy
-                # if debug:
-                #     print('dvy:',dvy)
-                #     print('vy:',vy)
-            
-            # update the position of the cursor
-            pos = win32api.GetCursorPos()
-            pos = (np.int(round(pos[0] + vx)),np.int(round(pos[1] - vy)))
-            win32api.SetCursorPos(pos)
-            # if (abs(ax)> Thresh):
-            #     pos = win32api.GetCursorPos() # The cursor posotion now
-            #     if debug:
-            #         print('vx',vx)
-            #     if debug:
-            #         print('original pos:',pos)
-            #     # update the position
-            #     if(ax > 0):
-            #         pos = (np.int(round(pos[0] - vx)), pos[1])
-            #     if(ax < 0):
-            #         pos = (np.int(round(pos[0] + vx)), pos[1])
-            #     if debug:
-            #         print('now pos:',pos)
-            #     # move the cursor
-            #     win32api.SetCursorPos(pos)
-            # if (abs(ay)> Thresh):
-            #     pos = win32api.GetCursorPos()
-            #     # the cursor position now
-            #     if debug:
-            #         print('original pos:',pos)
-            #     # the moving speed, we using exp function
-            #     vy = np.exp((abs(ay) - Thresh) * v)
-            #     if debug:
-            #         print('vy',vy)
-            #     if(ay > 0):
-            #         pos = (pos[0],np.int(round(pos[1] + vy)))
-            #     if(ay < 0):
-            #         pos = (pos[0],np.int(round(pos[1] - vy)))
-            #     if debug:
-            #         print('now pos:',pos)
-            #     # update cursor position
-            #     win32api.SetCursorPos(pos)
+            if (abs(ax)> Thresh):
+                pos = win32api.GetCursorPos() # The cursor posotion now
+                vx = np.exp((abs(ax) - Thresh) * v)
+                if debug:
+                    print('vx',vx)
+                if debug:
+                    print('original pos:',pos)
+                # update the position
+                if(ax > 0):
+                    pos = (np.int(round(pos[0] - vx)), pos[1])
+                if(ax < 0):
+                    pos = (np.int(round(pos[0] + vx)), pos[1])
+                if debug:
+                    print('now pos:',pos)
+                # move the cursor
+                win32api.SetCursorPos(pos)
+            if (abs(ay)> Thresh):
+                pos = win32api.GetCursorPos()
+                # the cursor position now
+                if debug:
+                    print('original pos:',pos)
+                # the moving speed, we using exp function
+                vy = np.exp((abs(ay) - Thresh) * v)
+                if debug:
+                    print('vy',vy)
+                if(ay > 0):
+                    pos = (pos[0],np.int(round(pos[1] + vy)))
+                if(ay < 0):
+                    pos = (pos[0],np.int(round(pos[1] - vy)))
+                if debug:
+                    print('now pos:',pos)
+                # update cursor position
+                win32api.SetCursorPos(pos)
 
 
 
