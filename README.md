@@ -33,8 +33,28 @@ ax = x0int / 32.0 * 9.8 - axave
 ay = y0int / 32.0 * 9.8 - ayave
 ```
 #### Attenuation of Velocity  
-
-## Requirement  
+We let the velocity damps with a constant rate so that the velocity will convergent even the integration of acceleration divergent.
+```python
+# damp the speed
+vx = vx * dampRate
+vy = vy * dampRate
+```
+#### Activation function
+There will be backlash when stop moving the mouse because of the huge reverse acceleration.
+It always causes the cursor to move backward which is not expected.  
+Therefore, we desigend an activation function to change the effect of accleration on the change of velocity.
+When the velocity is very small, the cursor is static and there is no problem of backlash.
+As a result, the acceleration should have great effect on the change of velocity.
+On the contrary, when the cursor is moving fast, huge acceleration is usually cause by stopping the mouse.
+So the acceleratiou shouldn't have a big enough impact on velocty or there will be backlash.
+In our design, the change of velocity is decided by several factors as shown below:
+```python
+dvx= np.exp(-abs(vx)) * ax * v
+dvy = np.exp(-abs(vy)) * ay * v
+```
+dv is the change of velocity, np.exp is the exponential function provided by numpy package in python, a is the acceleration and v is a constant to magify the relative speed which is specified by the user.  
+As we can see, dv decreases with the increase of the absolute value of v. 
+## Running Requirement  
 
 ### Mobile Phone  
  - Phone with Android OS is required.(tested on EMUI 8.0.0(Huawei))  
