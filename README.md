@@ -1,4 +1,38 @@
 # Using Your Mobile Phone as the Mouse to Control Your PC  
+## How It Works  
+### Acceleration data  
+We use the accelerometer in the mobile phone with Android operating system.
+We use API provided by the operating system to read the accelerometer data.
+
+### Problem in Calculating Velocity of the Mouse  
+In theory, the integration of acceleration is velocity.
+However, this may not make sense in practice.
+There is some bias and error with the sensor and the stimulation of small error in acceleration may lead to tremendous error in velocity.
+In addition, the sum of discrete sampling of acceleration is different from the integration of continious acceleration.
+There is also some error caused by discrete sampling.
+As a result, the common way to calculate velocity has great problem and needs to be inproved.
+### Solutions  
+In order to solve the problem above, we proposed several solutions.
+ - Kalman filter is applied on the acceletation data.  
+ - Calibration is applied before using the system to decrease caused by the sensor bias.  
+ - Attenuation of velocity is exerted to avoid divergency of velocity.  
+ - Activation function is used to alleviate the backlash.  
+#### Kalman filter  
+Kalman filter is usually used in dealing with inertial sensor data to remove noise.
+It's based on the prediction of the next state.  
+```python
+ax, xVar = kalmanFilter(ax,xPreData,xVar,Q,R)
+ay, yVar = kalmanFilter(ay,yPreData,yVar,Q,R)
+```
+#### Calibration  
+Before using the system, the user should put the mobile phone in the working surface.
+Then the system set the zero of acceleration to the mean value of static sensor data.
+After this step, the effect of inclination of the surface and the sensor bias is conpensated.  
+```python
+ax = x0int / 32.0 * 9.8 - axave
+ay = y0int / 32.0 * 9.8 - ayave
+```
+#### Attenuation of Velocity  
 
 ## Requirement  
 

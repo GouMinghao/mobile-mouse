@@ -131,8 +131,8 @@ if __name__ == '__main__':
             x0int = int.from_bytes(x0b,byteorder = 'big')-128
             y0int = int.from_bytes(y0b,byteorder = 'big')-128
             # decode the acceleration data and calibrate it using the data in the calibration step
-            ax = x0int / 32.0 * 9.8
-            ay = y0int / 32.0 * 9.8
+            ax = x0int / 32.0 * 9.8 - axave
+            ay = y0int / 32.0 * 9.8 - ayave
             ax, xVar = kalmanFilter(ax,xPreData,xVar,Q,R)
             ay, yVar = kalmanFilter(ay,yPreData,yVar,Q,R)
             # damp the speed
