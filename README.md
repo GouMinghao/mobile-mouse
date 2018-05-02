@@ -49,7 +49,7 @@ On the contrary, when the cursor is moving fast, huge acceleration is usually ca
 So the acceleratiou shouldn't have a big enough impact on velocty or there will be backlash.
 In our design, the change of velocity is decided by several factors as shown below:
 ```python
-dvx= np.exp(-abs(vx)) * ax * v
+dvx = np.exp(-abs(vx)) * ax * v
 dvy = np.exp(-abs(vy)) * ay * v
 ```
 dv is the change of velocity, np.exp is the exponential function provided by numpy package in python, a is the acceleration and v is a constant to magify the relative speed which is specified by the user.  
