@@ -1,4 +1,10 @@
 # Using Your Mobile Phone as the Mouse to Control Your PC  
+## Developer  
+ - Minghao Gou, School of Mechanical Engineering, Shanghai Jiao Tong University  
+ - Panzheng Zhou, School of Chemistry, Shanghai Jiao Tong University  
+ - Jiangtong Li, Zhiyuan College, Shanghai Jiao Tong University  
+ - Ruihao liu, School of Biomedical Engineering, Shanghai Jiao Tong University  
+ - Peihan Zhang, School of Mechanical Engineering, Shanghai Jiao Tong University  
 ## How It Works  
 ### Acceleration data  
 We use the accelerometer in the mobile phone with Android operating system.
@@ -54,6 +60,12 @@ dvy = np.exp(-abs(vy)) * ay * v
 ```
 dv is the change of velocity, np.exp is the exponential function provided by numpy package in python, a is the acceleration and v is a constant to magify the relative speed which is specified by the user.  
 As we can see, dv decreases with the increase of the absolute value of v. 
+## Communcation Protocal  
+
+### Hardware  
+
+### Encoding
+
 ## Running Requirement  
 
 ### Mobile Phone  
