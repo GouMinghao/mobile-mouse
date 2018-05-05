@@ -1,10 +1,11 @@
 # Using Your Mobile Phone as the Mouse to Control Your Computer  
 ## Developer  
- - Minghao Gou, School of Mechanical Engineering, Shanghai Jiao Tong University  
+<!-- [Jin Yongxu](https://github.com/JosephKim6)\ -->
+ - [Minghao Gou](https://github.com/GouMinghao), School of Mechanical Engineering, Shanghai Jiao Tong University  
  - Panzheng Zhou, School of Chemistry, Shanghai Jiao Tong University  
- - Jiangtong Li, Zhiyuan College, Shanghai Jiao Tong University  
+ - [Jiangtong Li](https://github.com/jiangtongli), Zhiyuan College, Shanghai Jiao Tong University  
  - Ruihao liu, School of Biomedical Engineering, Shanghai Jiao Tong University  
- - Peihan Zhang, School of Mechanical Engineering, Shanghai Jiao Tong University  
+ - [Peihan Zhang](https://github.com/xiancaiguazi), School of Mechanical Engineering, Shanghai Jiao Tong University  
 ## How It Works  
 ### Acceleration data  
 We use the accelerometer in the mobile phone with Android operating system.
